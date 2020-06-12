@@ -87,13 +87,6 @@ defmodule Opencensus.Absinthe do
           Type.Object.t()
         ) :: [Middleware.spec(), ...]
   def middleware(middleware, field, _object) do
-    if metaset(field, :trace) or metaset(field, :absinthe_telemetry) do
-      [{Opencensus.Absinthe.Middleware, field: field}] ++ middleware
-    else
-      middleware
-    end
+    [{Opencensus.Absinthe.Middleware, field: field}] ++ middleware
   end
-
-  @spec metaset(Type.Field.t(), atom()) :: boolean()
-  defp metaset(field, atom), do: Type.meta(field, atom) == true
 end
